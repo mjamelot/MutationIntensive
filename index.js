@@ -1,7 +1,7 @@
 const { exec } = require('child_process');
 const { GraphQLClient } = require('graphql-request');
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJsaW5rZWRMaXN0QGRldiIsInJvbGVzIjpbImFkbWluIl19LCJpYXQiOjE1MzYzMzEwOTYsImV4cCI6MTUzNjkzNTg5Nn0.E5LNF-6nyI9t1hDd0psdYw8Ib6vIMzNKh-N7IkFMi2Y';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJkZWZhdWx0QGRlZmF1bHQiLCJyb2xlcyI6WyJhZG1pbiJdfSwiaWF0IjoxNTM2NTk0MjU3LCJleHAiOjE1MzcxOTkwNTd9.k7KX_HDxz5pDkRVN8fyYn0VOCD1GhAFWyVr0li9ibRs';
 
 
 const client = new GraphQLClient('http://localhost:4466/linkedList/dev', {
@@ -66,27 +66,27 @@ async function stats(updateLink, loops) {
     const data = await client.request(createChain);
     try {
       await deleteChain(updateLink, data);
-      console.debug(`[#${i}/${loops}][SUCCESS]`);
+      console.debug(`[${updateLink?'LINKS':'RAW'}#${i}/${loops}][SUCCESS]`);
       stats.success++;
     } catch(e) {
       for(const {message} of e.response.errors) {
         if (message.startsWith("Whoops. Looks like an internal server error. Search your server logs for request ID: local:api:")) {
           const api = message.slice(-25);
-          await exec(`docker inspect --format='{{.LogPath}}' database_prisma_1 | xargs sudo grep ${api}`, (err, stdout) => {
+          await exec(`docker inspect --format='{{.LogPath}}' linkedlist_prisma_1 | xargs sudo grep ${api}`, (err, stdout) => {
             if (err) return console.error(err)
             if (stdout.includes("Deadlock found when trying to get lock; try restarting transaction")) {
-              console.debug(`[#${i}/${loops}][INTERNAL ERROR] ${api} => DEADLOCK`);
+              console.debug(`[${updateLink?'LINKS':'RAW'}#${i}/${loops}][INTERNAL ERROR] ${api} => DEADLOCK`);
               stats.internalError.deadlock++;
             } else if (stdout.includes("Cannot add or update a child row: a foreign key constraint fails")) {
-              console.debug(`[#${i}/${loops}][INTERNAL ERROR] ${api} => CONSTRAINT`);
+              console.debug(`[${updateLink?'LINKS':'RAW'}#${i}/${loops}][INTERNAL ERROR] ${api} => CONSTRAINT`);
               stats.internalError.constraint++;
             } else {
-              console.debug(`[#${i}/${loops}][INTERNAL ERROR] ${api} => OTHER`);
+              console.debug(`[${updateLink?'LINKS':'RAW'}#${i}/${loops}][INTERNAL ERROR] ${api} => OTHER`);
               stats.internalError.other++;
             }
           });
         } else if (message.startsWith("No Node for the model Item with value")) {
-          console.debug(`[#${i}/${loops}][NO NODE]`)
+          console.debug(`[${updateLink?'LINKS':'RAW'}#${i}/${loops}][NO NODE]`)
           stats.noNode++;
         } else {
           stats.unknownError++;
@@ -94,8 +94,14 @@ async function stats(updateLink, loops) {
       }
     } 
   }
-  console.log(`Stats ${updateLink?'when updating links before deletion':'when deleting items without maintaining chain consistency'}:\n`, JSON.stringify(stats, null, 2));
+  return `Stats ${updateLink?'when updating links before deletion':'when deleting items without maintaining chain consistency'}:\n ${JSON.stringify(stats, null, 2)}`;
 }
 
-stats(true, 100);
-stats(false, 100);
+async function main() {
+  const resWithLink = await stats(true, 100);
+  const resWithoutLink = await stats(false, 100);
+  console.log(resWithLink);
+  console.log(resWithoutLink);
+}
+
+main();
