@@ -1,0 +1,7 @@
+type Item {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  next: Item @relation(name:"Link")
+  previous: Item @relation(name:"Link")
+}
