@@ -10,6 +10,16 @@ const client = new GraphQLClient('http://localhost:4466/linkedList/dev', {
   },
 })
 
+
+var isDebugMode = false;
+
+console.debug = function(args)
+{
+  if (isDebugMode){
+    console.log(args);
+  }
+}
+
 const createChain = `mutation {
   chain0: createItem(data: {
     next: {create: {
