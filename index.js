@@ -84,14 +84,16 @@ async function stats(updateLink, loops) {
           const api = message.slice(-25);
           await exec(`docker inspect --format='{{.LogPath}}' linkedlist_prisma_1 | xargs sudo grep ${api}`, (err, stdout) => {
             if (err) return console.error(err)
-            if (stdout.includes("Deadlock found when trying to get lock; try restarting transaction")) {
+            if (stdout.includes("Deadlock found when trying to get lock; try restarting transaction") ||
+                stdout.includes("org.postgresql.util.PSQLException: ERROR: deadlock detected")) {
               console.debug(`[${updateLink?'LINKS':'RAW'}#${i}/${loops}][INTERNAL ERROR] ${api} => DEADLOCK`);
               stats.internalError.deadlock++;
-            } else if (stdout.includes("Cannot add or update a child row: a foreign key constraint fails")) {
+            } else if (stdout.includes("Cannot add or update a child row: a foreign key constraint fails") ||
+                stdout.includes("violates foreign key constraint")) {
               console.debug(`[${updateLink?'LINKS':'RAW'}#${i}/${loops}][INTERNAL ERROR] ${api} => CONSTRAINT`);
               stats.internalError.constraint++;
             } else {
-              console.debug(`[${updateLink?'LINKS':'RAW'}#${i}/${loops}][INTERNAL ERROR] ${api} => OTHER`);
+              console.debug(`[${updateLink?'LINKS':'RAW'}#${i}/${loops}][INTERNAL ERROR] ${api} => OTHER: ${stdout}`);
               stats.internalError.other++;
             }
           });

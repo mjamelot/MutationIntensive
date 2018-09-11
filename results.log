@@ -1,0 +1,104 @@
+#########################################################
+# prisma/1.13.3 (linux-x64) node-v8.11.2 local mySql
+#########################################################
+  Stats when updating links before deletion:
+   {
+    "noNode": 88,
+    "internalError": {
+      "deadlock": 11,
+      "constraint": 0,
+      "other": 0
+    },
+    "unknownError": 0,
+    "success": 0
+  }
+  Stats when deleting items without maintaining chain consistency:
+   {
+    "noNode": 0,
+    "internalError": {
+      "deadlock": 21,
+      "constraint": 0,
+      "other": 0
+    },
+    "unknownError": 0,
+    "success": 78
+  }
+
+#########################################################
+# prisma/1.13.3 (linux-x64) node-v8.11.2 local PostgreSql
+#########################################################
+Stats when updating links before deletion:
+ {
+  "noNode": 77,
+  "internalError": {
+    "deadlock": 19,
+    "constraint": 3,
+    "other": 0
+  },
+  "unknownError": 0,
+  "success": 0
+}
+Stats when deleting items without maintaining chain consistency:
+ {
+  "noNode": 0,
+  "internalError": {
+    "deadlock": 0,
+    "constraint": 0,
+    "other": 0
+  },
+  "unknownError": 0,
+  "success": 100
+}
+
+#########################################################
+# prisma/1.15.3 (linux-x64) node-v8.11.2 local mySql
+#########################################################
+  Stats when updating links before deletion:
+   {
+    "noNode": 75,
+    "internalError": {
+      "deadlock": 25,
+      "constraint": 0,
+      "other": 0
+    },
+    "unknownError": 0,
+    "success": 0
+  }
+  Stats when deleting items without maintaining chain consistency:
+   {
+    "noNode": 0,
+    "internalError": {
+      "deadlock": 33,
+      "constraint": 0,
+      "other": 0
+    },
+    "unknownError": 0,
+    "success": 67
+  }
+
+#########################################################
+# prisma/1.15.3 (linux-x64) node-v8.11.2 local PostgreSql
+#########################################################
+Stats when updating links before deletion:
+ {
+  "noNode": 55,
+  "internalError": {
+    "deadlock": 32,
+    "constraint": 0,
+    "other": 0
+  },
+  "unknownError": 0,
+  "success": 12
+}
+Stats when deleting items without maintaining chain consistency:
+ {
+  "noNode": 0,
+  "internalError": {
+    "deadlock": 0,
+    "constraint": 0,
+    "other": 0
+  },
+  "unknownError": 0,
+  "success": 100
+}
+
