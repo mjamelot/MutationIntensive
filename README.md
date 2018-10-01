@@ -8,3 +8,4 @@ node index.js
 Some results could be found in results.log for various environment (prisma 15.3 vs 13.3, mySql vs PostgreSql)
 # MutationIntensive
 # MutationIntensive
+# MutationIntensive
