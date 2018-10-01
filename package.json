@@ -1,7 +1,7 @@
 {
-  "name": "LinkedList",
+  "name": "y",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simplest doubly linked list prisma model that expose a deadlock issue with few concurrent deletes",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,5 +22,10 @@
     "log4js": "^3.0.5",
     "prisma": "1.15.3",
     "prisma-binding": "^2.1.5"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "y"
   }
 }
