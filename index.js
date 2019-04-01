@@ -2,8 +2,7 @@ const { exec } = require('child_process');
 const { GraphQLClient } = require('graphql-request');
 
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJsaW5rZWRMaXN0QGRldiIsInJvbGVzIjpbImFkbWluIl19LCJpYXQiOjE1MzgzODY0OTAsImV4cCI6MTUzODk5MTI5MH0.mslSgOyTLok1BPfkFh6zXSvnt830A7UZlPdEJ8tLcwY"
-
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJsaW5rZWRMaXN0QGRldiIsInJvbGVzIjpbImFkbWluIl19LCJpYXQiOjE1NTQxMDcwOTQsImV4cCI6MTU1NDcxMTg5NH0.9EYWDXkLEA7-wH8jr_02ix_PN2bxLFviEqbgmrMK7Y4"
 
 const client = new GraphQLClient('http://localhost:4466/linkedList/dev', {
   headers: {
@@ -39,7 +38,7 @@ async function mutation(userId, sync) {
   let result;
   try {
     result = await client.request(createChain(userId));
-    console.log(JSON.stringify(result));
+    //console.log(JSON.stringify(result));
   } catch (e) {
     console.log(`error mutation prisma ${sync?'sync':'async'}` + JSON.stringify(e));
 
@@ -66,7 +65,7 @@ async function synchronousMutation(userIdList) {
 
 async function main() {
   await deleteManyItmes();
-  const loops = 3000;
+  const loops = 4000;
   let userIdList = [];
   for (var i = 0; i < loops; i++) { userIdList.push(i); }
 

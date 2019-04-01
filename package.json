@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "engines": {
-    "node": ">=8.10.0"
+    "node": "=8.11.3"
   },
   "dependencies": {
     "child_process": "^1.0.2",
@@ -20,8 +20,8 @@
     "graphql-tools": "^3.0.4",
     "graphql-yoga": "^1.16.2",
     "log4js": "^3.0.5",
-    "prisma": "1.15.3",
-    "prisma-binding": "^2.1.5"
+    "prisma": "1.27.3",
+    "prisma-binding": "2.3.0"
   },
   "devDependencies": {},
   "repository": {
